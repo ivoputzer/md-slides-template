@@ -11,10 +11,10 @@ jobs:
       with:
         node-version: 12.x
     - name: Make HTML
-      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md
+      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
 
     - name: Make PDF
-      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --pdf
+      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --pdf --output presentation.pdf
 
     - name: Create Release
       id: create_release
@@ -34,9 +34,8 @@ jobs:
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        FILENAME: ${GITHUB_REPOSITORY#*/}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${FILENAME}.pdf
-        asset_name: ${FILENAME}.md
+        asset_path: presentation.pdf
+        asset_name: presentation.pdf
         asset_content_type: application/pdf
