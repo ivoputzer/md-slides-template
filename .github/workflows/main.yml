@@ -1,4 +1,4 @@
-name: Presentation
+name: presentation
 on: [push]
 jobs:
   github:
