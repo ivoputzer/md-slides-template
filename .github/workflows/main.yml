@@ -11,13 +11,18 @@ jobs:
       with:
         node-version: 12.x
     - name: Make HTML
-      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
-
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./
+      run: |
+        npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
+        git checkout --orphan gh-pages
+        git reset .
+        git add index.html
+        git commit -m "Page for commit ${GITHUB_SHA}"
+        git push origin gh-pages
+    # - name: Deploy
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     publish_dir: ./
 
   github_release:
     runs-on: ubuntu-latest
