@@ -1,23 +1,6 @@
 name: slides
 on: [push]
 jobs:
-  github_page:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-      with:
-        ref: refs/heads/master
-    - uses: actions/setup-node@master
-      with:
-        node-version: 12.x
-    - name: Make HTML
-      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ github.token }}
-        publish_dir: ./
-
   github_release:
     runs-on: ubuntu-latest
     steps:
@@ -59,3 +42,19 @@ jobs:
         asset_path: ./presentation.pdf
         asset_name: presentation.pdf
         asset_content_type: application/pdf
+  github_page:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: refs/heads/master
+    - uses: actions/setup-node@master
+      with:
+        node-version: 12.x
+    - name: Make HTML
+      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ github.token }}
+        publish_dir: ./
