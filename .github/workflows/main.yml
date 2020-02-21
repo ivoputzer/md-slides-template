@@ -15,21 +15,16 @@ jobs:
         npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
 
         git config --global gc.auto 0
-        git config --global user.name ${GITHUB_ACTOR}
-        git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
+        git config --global user.name ${{ github.actor }}
+        git config --global user.email ${{ github.actor }}@users.noreply.github.com
 
         git checkout --orphan gh-pages
         git reset .
         git add index.html
-        git commit -m "Page for commit ${GITHUB_SHA}"
+        git commit -m "Page for commit ${{ github.sha }}"
 
-        git remote add github "https://${{ github.actor }}:${{ GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+        git remote add github "https://${{ github.actor }}:${{ github.token }}@github.com/${{ github.repository }}.git"
         git push github gh-pages
-    # - name: Deploy
-    #   uses: peaceiris/actions-gh-pages@v3
-    #   with:
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    #     publish_dir: ./
 
   github_release:
     runs-on: ubuntu-latest
