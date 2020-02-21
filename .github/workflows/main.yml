@@ -1,4 +1,4 @@
-name: presentation
+name: slides
 on: [push]
 jobs:
   github_page:
@@ -11,10 +11,7 @@ jobs:
       with:
         node-version: 12.x
     - name: Make HTML
-      env:
-        GITHUB_REPOSITORY_NAME: ${GITHUB_REPOSITORY#*/}
-      run: |
-        npx @marp-team/marp-cli ${GITHUB_REPOSITORY_NAME}.md --output index.html
+      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
@@ -32,14 +29,13 @@ jobs:
         node-version: 12.x
     - name: Make PDF
       env:
-        GITHUB_REPOSITORY_NAME: ${GITHUB_REPOSITORY#*/}
-      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY_NAME}.md --pdf --output presentation.pdf
-
-    - name: Save Release URL File for publish
+        GITHUB_REPOSITORY_NAME:
+      run: npx @marp-team/marp-cli slides.md --pdf --output ${GITHUB_REPOSITORY#*/}.pdf
+    - name: Save Artifact
       uses: actions/upload-artifact@v1
       with:
-        name: ${GITHUB_REPOSITORY_NAME}
-        path: ./presentation.pdf
+        name: ${GITHUB_REPOSITORY#*/}
+        path: ${GITHUB_REPOSITORY#*/}.pdf
 
     - name: Create Release
       id: create_release

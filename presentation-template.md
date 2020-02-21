@@ -1,5 +1,0 @@
----
-marp: true
----
-
-# PRESENTATION TEMPLATE REPOSITORY
