@@ -10,15 +10,11 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: 12.x
-    - run: |
-      ${repository} = (${{ github.repository }} -Split '/')
-      echo "::set-env name=github_repository_user::${{ repository[0] }}"
-      echo "::set-env name=github_repository_name::${{ repository[1] }}"
     - name: Make HTML
-      # ${github_user} = ("${{ github.repository }}" -Split '/')[1]
+      env:
+        GITHUB_REPOSITORY_NAME: ${GITHUB_REPOSITORY#*/}
       run: |
-        npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
-
+        npx @marp-team/marp-cli ${GITHUB_REPOSITORY_NAME}.md --output index.html
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
@@ -35,7 +31,16 @@ jobs:
       with:
         node-version: 12.x
     - name: Make PDF
-      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --pdf --output presentation.pdf
+      env:
+        GITHUB_REPOSITORY_NAME: ${GITHUB_REPOSITORY#*/}
+      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY_NAME}.md --pdf --output presentation.pdf
+
+    - name: Save Release URL File for publish
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${GITHUB_REPOSITORY_NAME}
+        path: ./presentation.pdf
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
