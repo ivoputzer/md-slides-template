@@ -11,5 +11,5 @@ jobs:
       with:
         node-version: 12.x
     - name: Create PDF
-        run: |
-          npx @marp-team/marp-cli presentation.md --pdf
+      run: |
+        npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --pdf
