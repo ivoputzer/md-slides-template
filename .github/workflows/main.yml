@@ -16,7 +16,7 @@ jobs:
     - name: Save Artifact
       uses: actions/upload-artifact@v1
       with:
-        name: ${GITHUB_REPOSITORY#*/}
+        name: $GITHUB_REPOSITORY
         path: ${GITHUB_REPOSITORY#*/}.pdf
 
     - name: Create Release
