@@ -16,9 +16,7 @@ jobs:
     - name: Make PDF
       run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --pdf
 
-        github.repository
-
-    - name: Create Release
+      - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
