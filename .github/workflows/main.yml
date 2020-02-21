@@ -24,7 +24,7 @@ jobs:
         git commit -m "Page for commit ${{ github.sha }}"
 
         git remote add github "https://${{ github.actor }}:${{ github.token }}@github.com/${{ github.repository }}.git"
-        git push github gh-pages
+        git push github gh-pages --force
 
   github_release:
     runs-on: ubuntu-latest
