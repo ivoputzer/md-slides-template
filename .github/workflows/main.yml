@@ -11,9 +11,8 @@ jobs:
       with:
         node-version: 12.x
     - name: Make PDF
-      env:
-        GITHUB_REPOSITORY_NAME:
-      run: npx @marp-team/marp-cli slides.md --pdf --output ${GITHUB_REPOSITORY#*/}.pdf
+      run: |
+        npx @marp-team/marp-cli slides.md --pdf --output ${GITHUB_REPOSITORY#*/}.pdf
     - name: Save Artifact
       uses: actions/upload-artifact@v1
       with:
