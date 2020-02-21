@@ -1,0 +1,15 @@
+name: Marp Presentation
+on: [push]
+jobs:
+  github_releases:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: refs/heads/master
+    - uses: actions/setup-node@master
+      with:
+        node-version: 12.x
+    - name: Create PDF
+        run: |
+          npx @marp-team/marp-cli presentation.md --pdf
