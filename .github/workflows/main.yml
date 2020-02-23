@@ -18,7 +18,6 @@ jobs:
       with:
         name: $GITHUB_REPOSITORY
         path: ${GITHUB_REPOSITORY#*/}.pdf
-
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -51,7 +50,20 @@ jobs:
       with:
         node-version: 12.x
     - name: Make HTML
-      run: npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
+      run: |
+      npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
+
+      echo "------------------"
+      echo "GITHUB_PAYLOAD: $GITHUB_PAYLOAD"
+      echo "GITHUB_ACTOR: $GITHUB_ACTOR "
+      echo "------------------"
+
+      git config user.name $(jq .pusher.username $GITHUB_PAYLOAD)
+      git config user.email $(jq .pusher.email $GITHUB_PAYLOAD)
+    # git add --all
+    # git commit -m "Publish to gh-pages branch"
+    # git remote add pages https://x-access-token:$GITHUB_TOKEN@github.com/:owner/:repo.git
+    # git push pages gh-pages -f
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
