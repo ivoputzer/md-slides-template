@@ -55,9 +55,6 @@ jobs:
       run: |
         echo "${{ toJson(github) }}"
     - name: Build
-      env:
-        GITHUB_REPOSITORY_USER:
-        GITHUB_REPOSITORY_NAME:
       run: |
         npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --url "https://${GITHUB_REPOSITORY%/*}.github.io/${GITHUB_REPOSITORY#*/}/" --output index.html
     - name: Deploy
