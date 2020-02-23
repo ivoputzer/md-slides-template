@@ -49,37 +49,13 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: 12.x
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-    - name: Dump job context
-      env:
-        JOB_CONTEXT: ${{ toJson(job) }}
-      run: echo "$JOB_CONTEXT"
-    - name: Dump steps context
-      env:
-        STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: echo "$STEPS_CONTEXT"
-    - name: Dump runner context
-      env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: echo "$RUNNER_CONTEXT"
-    - name: Dump strategy context
-      env:
-        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-      run: echo "$STRATEGY_CONTEXT"
-    - name: Dump matrix context
-      env:
-        MATRIX_CONTEXT: ${{ toJson(matrix) }}
-      run: echo "$MATRIX_CONTEXT"
     - name: Make HTML
+      run: |
+        npx @marp-team/marp-cli slides.md --output index.html
+    - name: Configure GIT
       env:
-        GITHUB_CONTEXT:
         JOB_CONTEXT: ${{ toJson(job) }}
       run: |
-        # npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
-
-        git config user.name ${{ toJson(github.event.pusher.name }}
-        git config user.email ${{ toJson(github.event.pusher.email }}
+        git config user.name ${{ github.event.pusher.name }}
+        git config user.email ${{ github.event.pusher.email }}
         git config --list
