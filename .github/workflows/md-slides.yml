@@ -71,11 +71,11 @@ jobs:
     - name: Release
       id: create_release
       uses: actions/create-release@v1
-      # env:
-      #   GITHUB_TOKEN: ${{ github.token }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       with:
         tag_name: v${{ github.run_id }}
-        release_name: Pitchme ${{ github.run_id }}
+        release_name: PITCHME.md ${{ github.run_id }}
         body: ${{ github.event.head_commit.message }}
         draft: false
         prerelease: false
