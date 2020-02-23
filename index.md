@@ -1,5 +1,8 @@
 ---
 marp: true
+title: md-slides-template
+description: this is an example slide deck created with md-slides-template
+image: https://marp.app/og-image.jpg
 ---
 
 # MD-DECK-TEMPLATE

@@ -61,11 +61,12 @@ jobs:
         git config user.email ${{ github.event.pusher.email }}
         git checkout --orphan gh-pages
 
-        git add --all
-        git status -sb
+        git status
+        git add index.html
+        git status
 
         git commit -m "publish ${{ github.sha }} to gh-pages"
         git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages --force
 
-        curl -sL -X POST -H "Content-Type: application/json" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Authorization: token ${{ github.token}}" https://api.github.com/repos/${{ github.repository }}/pages/builds
+        # curl -sL -X POST -H "Content-Type: application/json" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Authorization: token ${{ github.token}}" https://api.github.com/repos/${{ github.repository }}/pages/builds
         # even though this fails it manages to trigger a github-pages deployment
