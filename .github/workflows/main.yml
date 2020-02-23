@@ -1,4 +1,4 @@
-name: slides
+name: publish
 on: [push]
 jobs:
   github_release:
@@ -51,7 +51,7 @@ jobs:
         node-version: 12.x
     - name: Make HTML
       run: |
-        npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
+        # npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
 
         echo "------------------"
 
