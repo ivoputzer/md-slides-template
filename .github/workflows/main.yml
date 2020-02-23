@@ -66,6 +66,5 @@ jobs:
         git commit -m "Publish to gh-pages branch"
         git push gh-actions gh-pages -f
 
-        curl -sL -X POST -H "Authorization: token ${{ github.token}}" -H "Content-Type: application/json" https://api.github.com/repos/${{ github.repository }}/pages/builds
-        # -H "Accept: application/vnd.github.switcheroo-preview+json"
-        # even though this formally fails it manages to trigger a gh-pages deployment
+        curl -sL -X POST -H "Authorization: token ${{ github.token}}" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/${{ github.repository }}/pages/builds
+        # even though this formally fails it manages to trigger gh-pages deployment
