@@ -53,8 +53,6 @@ jobs:
       run: |
         npx @marp-team/marp-cli slides.md --output index.html
     - name: Deploy
-      env:
-        JOB_CONTEXT: ${{ toJson(job) }}
       run: |
         git config user.name ${{ github.event.pusher.name }}
         git config user.email ${{ github.event.pusher.email }}
