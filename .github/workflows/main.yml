@@ -54,17 +54,17 @@ jobs:
     - name: Build
       run: |
         npx @marp-team/marp-cli
-    - name: Deploy
-      run: |
+        - name: Deploy
+        run: |
         git config user.name ${{ github.event.pusher.name }}
         git config user.email ${{ github.event.pusher.email }}
 
-        git remote add gh-actions https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
         git checkout --orphan gh-pages
-
+        echo "*.md\n.marprc.json\nreadme.md" >> .gitignore
         git add --all
+
         git commit -m "Publish to gh-pages branch\n\n${{ github.sha }}"
-        git push gh-actions gh-pages
+        git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages --force
 
         curl -sL -X POST -H "Content-Type: application/json" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Authorization: token ${{ github.token}}" https://api.github.com/repos/${{ github.repository }}/pages/builds
         # even though this fails it manages to trigger a github-pages deployment
