@@ -1,7 +1,7 @@
 name: markdown slides
 on: [push]
 jobs:
-  github release:
+  github_release:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
