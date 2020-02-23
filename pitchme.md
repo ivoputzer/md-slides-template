@@ -1,10 +1,11 @@
 ---
 marp: true
+theme: uncover
 title: md-slides-template
 description: This is an example slide deck created with md-slides-template
 ---
 
-# MD-SLIDES-TEMPLATE
+# MD-SLIDES TEMPLATE
 
 ![bg left](https://gravatar.com/avatar/5d34a6bf73323076e6c8ddfd10831c90?s=1024)
 
