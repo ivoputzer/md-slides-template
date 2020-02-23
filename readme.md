@@ -5,7 +5,7 @@
 
 This template can be forked or simply copied inside your github repository to render `PITCHME.md` files into [marp](https://marp.app) presentations. On every commit the workflow will update your github page and create a new github release of your presentation automatically.
 
-### [No configuration needed!](/ivoputzer/md-slides-template/blob/master/.github/workflows/md-slides.yml)
+### [No configuration needed!](/.github/workflows/md-slides.yml)
 
 ## PITCHME.md
 We use the `PITCHME.md` convention introduced by [GitPitch](https://gitpitch.com/docs/getting-started/pitchme/). The `PITCHME.md` file inside your repository will be used to render the [marp]() presentation.
