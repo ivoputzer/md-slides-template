@@ -15,15 +15,28 @@ jobs:
         echo "::set-env name=GITHUB_REPOSITORY_USER::$(dirname $GITHUB_REPOSITORY)"
         echo "::set-env name=GITHUB_REPOSITORY_NAME::$(basename $GITHUB_REPOSITORY)"
         echo "::set-env name=GITHUB_PAGES_CANONICAL::https://${GITHUB_REPOSITORY_USER}.github.io/${GITHUB_REPOSITORY_NAME}/"
-    - name: Build thumbnail
-      run: |
-        npx @marp-team/marp-cli pitchme.md --output thumbnail.png --image png
     - name: Build pptx
       run: |
-        npx @marp-team/marp-cli pitchme.md --pptx --output ${GITHUB_REPOSITORY_NAME}-v${{ github.run_number }}.pptx
+        npx @marp-team/marp-cli pitchme.md --pptx --output ${{ github.sha }}.pptx
     - name: Build pdf
       run: |
-        npx @marp-team/marp-cli pitchme.md --pdf --output ${GITHUB_REPOSITORY_NAME}-v${{ github.run_number }}.pdf
-    - name: Build html
-      run: |
-        npx @marp-team/marp-cli pitchme.md --output index.html --og-image "${GITHUB_PAGES_CANONICAL}thumbnail.png" --url "${GITHUB_PAGES_CANONICAL}"
+        npx @marp-team/marp-cli pitchme.md --pdf --output ${{ github.sha }}.pdf
+
+    # - name: Build image
+    #   run: |
+    #     npx @marp-team/marp-cli pitchme.md --output ${{ github.sha }}.png --image png
+    # - name: Build html
+    #   run: |
+    #     npx @marp-team/marp-cli pitchme.md --output index.html --og-image "${GITHUB_PAGES_CANONICAL}thumbnail.png" --url "${GITHUB_PAGES_CANONICAL}"
+
+    - name: Save
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ join( 'PowerPoint Open XML Presentation v',  github.run_number) }}
+        path: ${{ github.sha }}.pptx
+
+    - name: Save
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ join( 'Portable Document Format v',  github.run_number) }}
+        path: ${{ github.sha }}.pdf
