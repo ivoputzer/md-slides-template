@@ -59,3 +59,11 @@ jobs:
         git config user.name ${{ github.event.pusher.name }}
         git config user.email ${{ github.event.pusher.email }}
         git config --list
+
+        git remote add gh-actions https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
+        git checkout --orphan gh-pages
+
+        git add index.html presentation.pdf
+        git commit -m "Publish to gh-pages branch"
+        git push gh-actions gh-pages -f
+
