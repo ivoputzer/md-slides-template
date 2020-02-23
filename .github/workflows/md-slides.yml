@@ -74,8 +74,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
-        tag_name: v${{ github.run_id }}
-        release_name: PITCHME.md ${{ github.run_id }}
+        tag_name: ${{ github.run_number }}
+        release_name: PITCHME.md
         body: ${{ github.event.head_commit.message }}
         draft: false
         prerelease: false
