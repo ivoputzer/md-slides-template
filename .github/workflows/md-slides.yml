@@ -15,35 +15,47 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       run: echo "$GITHUB_CONTEXT"
-    - name: Dump job context
-      env:
-        JOB_CONTEXT: ${{ toJson(job) }}
-      run: echo "$JOB_CONTEXT"
-    - name: Dump steps context
-      env:
-        STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: echo "$STEPS_CONTEXT"
-    - name: Dump runner context
-      env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: echo "$RUNNER_CONTEXT"
-    - name: Dump strategy context
-      env:
-        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-      run: echo "$STRATEGY_CONTEXT"
-    - name: Dump matrix context
-      env:
-        MATRIX_CONTEXT: ${{ toJson(matrix) }}
-      run: echo "$MATRIX_CONTEXT"
+    # - name: Dump job context
+    #   env:
+    #     JOB_CONTEXT: ${{ toJson(job) }}
+    #   run: echo "$JOB_CONTEXT"
+    # - name: Dump steps context
+    #   env:
+    #     STEPS_CONTEXT: ${{ toJson(steps) }}
+    #   run: echo "$STEPS_CONTEXT"
+    # - name: Dump runner context
+    #   env:
+    #     RUNNER_CONTEXT: ${{ toJson(runner) }}
+    #   run: echo "$RUNNER_CONTEXT"
+    # - name: Dump strategy context
+    #   env:
+    #     STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+    #   run: echo "$STRATEGY_CONTEXT"
+    # - name: Dump matrix context
+    #   env:
+    #     MATRIX_CONTEXT: ${{ toJson(matrix) }}
+    #   run: echo "$MATRIX_CONTEXT"
 
+
+    - name: Build pdf
+      run: |
+        npx @marp-team/marp-cli pitchme.md --pdf --output ${{ github.sha }}.pdf
+    - name: Save pdf
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ github.sha }}.pdf
+        path: ${{ github.sha }}.pdf
 
 
     - name: Build pptx
       run: |
         npx @marp-team/marp-cli pitchme.md --pptx --output ${{ github.sha }}.pptx
-    - name: Build pdf
-      run: |
-        npx @marp-team/marp-cli pitchme.md --pdf --output ${{ github.sha }}.pdf
+    - name: Save pptx
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ github.sha }}.pptx
+        path: ${{ github.sha }}.pptx
+
     # - name: Variables
     #   run: |
     #     echo "::set-env name=GITHUB_REPOSITORY_USER::$(dirname $GITHUB_REPOSITORY)"
@@ -56,32 +68,14 @@ jobs:
     #   run: |
     #     npx @marp-team/marp-cli pitchme.md --output index.html --og-image "${GITHUB_PAGES_CANONICAL}thumbnail.png" --url "${GITHUB_PAGES_CANONICAL}"
 
-    - name: Save
-      uses: actions/upload-artifact@v1
-      with:
-        name: ${{ github.sha }}.pptx
-        path: ${{ github.sha }}.pptx
-    - name: Save
-      uses: actions/upload-artifact@v1
-      with:
-        name: ${{ github.sha }}.pdf
-        path: ${{ github.sha }}.pdf
-
-    - name: Make
-      id: release_body
-      uses: actions/github-script@0.5.0
-      with:
-        script: |
-          github.event.commits.map(commit => `- ${commit.message} (${commit.tree_id})`).join('\n')
-
     - name: Release
       id: create_release
       uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+      # env:
+      #   GITHUB_TOKEN: ${{ github.token }}
       with:
-        tag_name: v${{ github.run_number }}
-        release_name: Release ${{ github.run_number }}
-        body: ${{ steps.release_body.outputs.result }}
+        tag_name: v${{ github.run_id }}
+        release_name: Pitchme ${{ github.run_id }}
+        body: ${{ github.event.head_commit.message }}
         draft: false
         prerelease: false
