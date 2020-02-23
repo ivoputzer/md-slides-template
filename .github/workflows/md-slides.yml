@@ -51,9 +51,12 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: 13.x
-    - name: Build
+    - name: Build IMGAE
       run: |
-        npx @marp-team/marp-cli --output index.html --url "https://$(dirname $GITHUB_REPOSITORY).github.io/$(basename $GITHUB_REPOSITORY)/"
+        npx @marp-team/marp-cli --output og-image.jpg --image jpeg --jpeg-quality 85
+    - name: Build HTML
+      run: |
+        npx @marp-team/marp-cli --output index.html --og-image og-image.jpg --url "https://$(dirname $GITHUB_REPOSITORY).github.io/$(basename $GITHUB_REPOSITORY)/"
     - name: Deploy
       run: |
         git config user.name ${{ github.event.pusher.name }}
@@ -62,7 +65,7 @@ jobs:
         git checkout --orphan gh-pages
 
         git reset .
-        git add index.html
+        git add index.html og-image.jpg
 
         git commit -m "publish ${{ github.sha }} to github pages"
         git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages --force
