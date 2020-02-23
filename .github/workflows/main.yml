@@ -83,8 +83,3 @@ jobs:
         git config user.name ${{ toJson(github.event.pusher.name }}
         git config user.email ${{ toJson(github.event.pusher.email }}
         git config --list
-    # - name: Deploy
-    #   uses: peaceiris/actions-gh-pages@v3
-    #   with:
-    #     github_token: ${{ github.token }}
-    #     publish_dir: ./
