@@ -50,7 +50,7 @@ jobs:
         ref: refs/heads/master
     - uses: actions/setup-node@master
       with:
-        node-version: latest
+        node-version: 13.x
     - name: Build
       run: |
         npx @marp-team/marp-cli
