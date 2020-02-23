@@ -61,22 +61,11 @@ jobs:
         git config user.name ${{ github.event.pusher.name }}
         git config user.email ${{ github.event.pusher.email }}
 
-        git config --list
-        # todo: get rid of debugging info
+        git remote add gh-actions https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
+        git checkout --orphan gh-pages
 
-        git status -sb
-
-        echo "*.md" > $(jq .inputDir .marprc.json)/.gitignore
-        git add $(jq .inputDir .marprc.json)
-
-        git status -sb
-
-        # todo: add files selectively
-
-        git commit -m "Publish to gh-pages branch"
-        # todo: add commit sha to orphan commit name
-
-        git subtree push --prefix=$(jq .inputDir .marprc.json) https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages --force
+        git add --all
+        git commit -m "Publish to gh-pages branch ${{ github.sha }}"
 
         curl -sL -X POST -H "Content-Type: application/json" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Authorization: token ${{ github.token}}" https://api.github.com/repos/${{ github.repository }}/pages/builds
         # even though this fails it manages to trigger a github-pages deployment
