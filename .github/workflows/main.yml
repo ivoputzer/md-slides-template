@@ -49,10 +49,10 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: 12.x
-    - name: Make HTML
+    - name: Build
       run: |
         npx @marp-team/marp-cli slides.md --output index.html
-    - name: Configure GIT
+    - name: Deploy
       env:
         JOB_CONTEXT: ${{ toJson(job) }}
       run: |
@@ -63,7 +63,7 @@ jobs:
         git remote add gh-actions https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
         git checkout --orphan gh-pages
 
-        git add index.html presentation.pdf
+        git add --all
         git commit -m "Publish to gh-pages branch"
         git push gh-actions gh-pages -f
 
