@@ -1,36 +1,38 @@
 name: publish
 on: [push]
 jobs:
-  github_release:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-      with:
-        ref: refs/heads/master
-    - uses: actions/setup-node@master
-      with:
-        node-version: 12.x
-    - name: Make PDF
-      run: |
-        npx @marp-team/marp-cli slides.md --pdf --output ${GITHUB_REPOSITORY#*/}.pdf
-    - name: Save Artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: $GITHUB_REPOSITORY
-        path: ${GITHUB_REPOSITORY#*/}.pdf
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v${{ github.run_number }}
-        release_name: Release ${{ github.run_number }}
-        body: |
-          lorem ipsum
-        draft: false
-        prerelease: false
-    - name: Upload Release Asset
+  # github_release:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@master
+  #     with:
+  #       ref: refs/heads/master
+  #   - uses: actions/setup-node@master
+  #     with:
+  #       node-version: 12.x
+  #   - name: Make pptx
+  #     run: echo "todo"
+  #   - name: Make pdf
+  #     run: |
+  #       npx @marp-team/marp-cli slides.md --pdf --output ${GITHUB_REPOSITORY#*/}.pdf
+  #   - name: Save Artifact
+  #     uses: actions/upload-artifact@v1
+  #     with:
+  #       name: $GITHUB_REPOSITORY
+  #       path: ${GITHUB_REPOSITORY#*/}.pdf
+  #   - name: Create Release
+  #     id: create_release
+  #     uses: actions/create-release@v1
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     with:
+  #       tag_name: v${{ github.run_number }}
+  #       release_name: Release ${{ github.run_number }}
+  #       body: |
+  #         lorem ipsum
+  #       draft: false
+  #       prerelease: false
+  #   - name: Upload Release Asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
       env:
@@ -51,20 +53,22 @@ jobs:
         node-version: 12.x
     - name: Build
       run: |
-        npx @marp-team/marp-cli slides.md --output index.html
+        # this should use marprc.yml file
+        npx @marp-team/marp-cli
     - name: Deploy
       run: |
         git config user.name ${{ github.event.pusher.name }}
         git config user.email ${{ github.event.pusher.email }}
-
         git config --list
+        # todo: get rid of debugging info
 
-        git remote add gh-actions https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
         git checkout --orphan gh-pages
-
         git add --all
-        git commit -m "Publish to gh-pages branch"
-        git push gh-actions gh-pages -f
+        # todo: add files selectively
 
-        curl -sL -X POST -H "Authorization: token ${{ github.token}}" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/${{ github.repository }}/pages/builds
-        # even though this formally fails it manages to trigger gh-pages deployment
+        git commit -m "Publish to gh-pages branch"
+        git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages -f
+        # todo: add commit sha to orphan commit name
+
+        curl -sL -X POST -H "Content-Type: application/json" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Authorization: token ${{ github.token}}" https://api.github.com/repos/${{ github.repository }}/pages/builds
+        # even though this fails it manages to trigger a github-pages deployment
