@@ -54,21 +54,28 @@ jobs:
     - name: Build
       run: |
         # this should use marprc.yml file
+        # this should be all html pages
         npx @marp-team/marp-cli
     - name: Deploy
       run: |
         git config user.name ${{ github.event.pusher.name }}
         git config user.email ${{ github.event.pusher.email }}
+
         git config --list
         # todo: get rid of debugging info
 
+        git status -sb
         git checkout --orphan gh-pages
         git add --all
+
+        git status -sb
+
         # todo: add files selectively
 
         git commit -m "Publish to gh-pages branch"
-        git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages -f
         # todo: add commit sha to orphan commit name
+
+        git subtree push --prefix $(jq .inputDir .marprc.json) https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages -f
 
         curl -sL -X POST -H "Content-Type: application/json" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Authorization: token ${{ github.token}}" https://api.github.com/repos/${{ github.repository }}/pages/builds
         # even though this fails it manages to trigger a github-pages deployment
