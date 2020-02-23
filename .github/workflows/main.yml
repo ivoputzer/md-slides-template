@@ -75,7 +75,8 @@ jobs:
         git commit -m "Publish to gh-pages branch"
         # todo: add commit sha to orphan commit name
 
-        git subtree push --prefix $(jq .inputDir .marprc.json) https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages -f
+        git remote add github-pages https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
+        git push github-pages $(git subtree split --prefix $(jq .inputDir .marprc.json) master):gh-pages --force
 
         curl -sL -X POST -H "Content-Type: application/json" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Authorization: token ${{ github.token}}" https://api.github.com/repos/${{ github.repository }}/pages/builds
         # even though this fails it manages to trigger a github-pages deployment
