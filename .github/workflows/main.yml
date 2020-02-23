@@ -55,10 +55,10 @@ jobs:
       run: |
         echo "${{ toJson(github) }}"
     - name: Build
+      env:
+        GITHUB_REPOSITORY_USER: ${GITHUB_REPOSITORY%/*}
+        GITHUB_REPOSITORY_NAME: ${GITHUB_REPOSITORY#*/}
       run: |
-        ${GITHUB_REPOSITORY_USER} = $(dirname $GITHUB_REPOSITORY)
-        ${GITHUB_REPOSITORY_NAME} = $(basename $GITHUB_REPOSITORY)
-
         echo "GITHUB_REPOSITORY_USER: ${GITHUB_REPOSITORY_USER}"
         echo "GITHUB_REPOSITORY_NAME: ${GITHUB_REPOSITORY_NAME}"
 
