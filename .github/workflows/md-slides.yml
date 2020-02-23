@@ -10,18 +10,45 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: 13.x
-    - name: Variables
-      run: |
-        echo "::set-env name=GITHUB_REPOSITORY_USER::$(dirname $GITHUB_REPOSITORY)"
-        echo "::set-env name=GITHUB_REPOSITORY_NAME::$(basename $GITHUB_REPOSITORY)"
-        echo "::set-env name=GITHUB_PAGES_CANONICAL::https://${GITHUB_REPOSITORY_USER}.github.io/${GITHUB_REPOSITORY_NAME}/"
+
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+    - name: Dump job context
+      env:
+        JOB_CONTEXT: ${{ toJson(job) }}
+      run: echo "$JOB_CONTEXT"
+    - name: Dump steps context
+      env:
+        STEPS_CONTEXT: ${{ toJson(steps) }}
+      run: echo "$STEPS_CONTEXT"
+    - name: Dump runner context
+      env:
+        RUNNER_CONTEXT: ${{ toJson(runner) }}
+      run: echo "$RUNNER_CONTEXT"
+    - name: Dump strategy context
+      env:
+        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+      run: echo "$STRATEGY_CONTEXT"
+    - name: Dump matrix context
+      env:
+        MATRIX_CONTEXT: ${{ toJson(matrix) }}
+      run: echo "$MATRIX_CONTEXT"
+
+
+
     - name: Build pptx
       run: |
         npx @marp-team/marp-cli pitchme.md --pptx --output ${{ github.sha }}.pptx
     - name: Build pdf
       run: |
         npx @marp-team/marp-cli pitchme.md --pdf --output ${{ github.sha }}.pdf
-
+    # - name: Variables
+    #   run: |
+    #     echo "::set-env name=GITHUB_REPOSITORY_USER::$(dirname $GITHUB_REPOSITORY)"
+    #     echo "::set-env name=GITHUB_REPOSITORY_NAME::$(basename $GITHUB_REPOSITORY)"
+    #     echo "::set-env name=GITHUB_PAGES_CANONICAL::https://${GITHUB_REPOSITORY_USER}.github.io/${GITHUB_REPOSITORY_NAME}/"
     # - name: Build image
     #   run: |
     #     npx @marp-team/marp-cli pitchme.md --output ${{ github.sha }}.png --image png
@@ -39,3 +66,17 @@ jobs:
       with:
         name: ${{ github.sha }}.pdf
         path: ${{ github.sha }}.pdf
+
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}
+        body: |
+          lorem ipsum
+        draft: false
+        prerelease: false
