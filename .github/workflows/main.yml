@@ -55,8 +55,13 @@ jobs:
       run: |
         echo "${{ toJson(github) }}"
     - name: Build
+      env:
+        GITHUB_REPOSITORY_USER: dirname ${{ github.repository }}
+        GITHUB_REPOSITORY_NAME: basename ${{ github.repository }}
       run: |
-        npx @marp-team/marp-cli
+        echo "GITHUB_REPOSITORY_USER: $GITHUB_REPOSITORY_USER"
+        echo "GITHUB_REPOSITORY_NAME: $GITHUB_REPOSITORY_NAME"
+        npx @marp-team/marp-cli index.md --url "https://${GITHUB_REPOSITORY_USER}.github.io/{GITHUB_REPOSITORY_NAME}/" -o index.html
     - name: Deploy
       run: |
         git config user.name ${{ github.event.pusher.name }}
@@ -64,8 +69,8 @@ jobs:
 
         git checkout --orphan gh-pages
 
-        git reset .
-        git add --all
+        git reset head .
+        git add index.html
 
         git commit -m "publish ${{ github.sha }} to github pages"
         git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages --force
