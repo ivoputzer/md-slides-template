@@ -54,14 +54,16 @@ jobs:
     - name: Build
       run: |
         npx @marp-team/marp-cli
-        - name: Deploy
+        echo "*.md\n.marprc.json\nreadme.md" >> .gitignore
+        git status -sb
+    - name: Deploy
         run: |
         git config user.name ${{ github.event.pusher.name }}
         git config user.email ${{ github.event.pusher.email }}
-
         git checkout --orphan gh-pages
-        echo "*.md\n.marprc.json\nreadme.md" >> .gitignore
+
         git add --all
+        git status -sb
 
         git commit -m "Publish to gh-pages branch\n\n${{ github.sha }}"
         git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages --force
