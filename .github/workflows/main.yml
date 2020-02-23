@@ -50,11 +50,13 @@ jobs:
       with:
         node-version: 12.x
     - name: Make HTML
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
       run: |
         # npx @marp-team/marp-cli ${GITHUB_REPOSITORY#*/}.md --output index.html
 
         echo "------------------"
-
+        echo "GITHUB_CONTEXT: $GITHUB_CONTEXT"
         echo "GITHUB_PAYLOAD: $GITHUB_PAYLOAD"
         echo "GITHUB_ACTOR: $GITHUB_ACTOR"
         echo "GITHUB_PUSHER_USERNAME: $(jq .pusher.username $GITHUB_PAYLOAD)"
