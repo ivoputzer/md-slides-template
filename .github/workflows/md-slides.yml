@@ -67,8 +67,14 @@ jobs:
         name: ${{ github.sha }}.pdf
         path: ${{ github.sha }}.pdf
 
+    - name: Make
+      id: release_body
+      uses: actions/github-script@0.5.0
+      with:
+        script: |
+          github.event.commits.map(commit => `- ${commit.message} (${commit.tree_id})`).join('\n')
 
-    - name: Create Release
+    - name: Release
       id: create_release
       uses: actions/create-release@v1
       env:
@@ -76,7 +82,6 @@ jobs:
       with:
         tag_name: v${{ github.run_number }}
         release_name: Release ${{ github.run_number }}
-        body: |
-          lorem ipsum
+        body: ${{ steps.release_body.outputs.result }}
         draft: false
         prerelease: false
