@@ -2,10 +2,11 @@
 marp: true
 title: md-slides-template
 description: this is an example slide deck created with md-slides-template
-image: https://marp.app/og-image.jpg
+url: https://ivoputzer.github.io/md-slides-template/
+image: https://gravatar.com/avatar/5d34a6bf73323076e6c8ddfd10831c90?s=1024
 ---
 
-# MD-DECK-TEMPLATE
+# MD-SLIDES-TEMPLATE
 
 ![bg left](https://gravatar.com/avatar/5d34a6bf73323076e6c8ddfd10831c90?s=1024)
 

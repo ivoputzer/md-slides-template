@@ -51,6 +51,10 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: 13.x
+    - name: Dependencies
+      run: |
+        which basename
+        which dirname
     - name: env
       run: |
         echo "${{ toJson(github) }}"
