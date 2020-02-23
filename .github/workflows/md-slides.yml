@@ -53,10 +53,10 @@ jobs:
         node-version: 13.x
     - name: Build IMGAE
       run: |
-        npx @marp-team/marp-cli --output og-image.jpg --image jpeg --jpeg-quality 85
+        npx @marp-team/marp-cli pitchme.md --output og-image.jpg --image jpeg --jpeg-quality 85
     - name: Build HTML
       run: |
-        npx @marp-team/marp-cli --output index.html --og-image og-image.jpg --url "https://$(dirname $GITHUB_REPOSITORY).github.io/$(basename $GITHUB_REPOSITORY)/"
+        npx @marp-team/marp-cli pitchme.md --output index.html --og-image og-image.jpg --url "https://$(dirname $GITHUB_REPOSITORY).github.io/$(basename $GITHUB_REPOSITORY)/"
     - name: Deploy
       run: |
         git config user.name ${{ github.event.pusher.name }}
