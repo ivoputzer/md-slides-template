@@ -32,11 +32,10 @@ jobs:
     - name: Save
       uses: actions/upload-artifact@v1
       with:
-        name: ${{ join( 'PowerPoint Open XML Presentation v',  github.run_number) }}
+        name: ${{ github.sha }}.pptx
         path: ${{ github.sha }}.pptx
-
     - name: Save
       uses: actions/upload-artifact@v1
       with:
-        name: ${{ join( 'Portable Document Format v',  github.run_number) }}
+        name: ${{ github.sha }}.pdf
         path: ${{ github.sha }}.pdf
