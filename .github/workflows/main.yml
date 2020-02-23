@@ -57,7 +57,7 @@ jobs:
         echo "*.md\n.marprc.json\nreadme.md" >> .gitignore
         git status -sb
     - name: Deploy
-        run: |
+      run: |
         git config user.name ${{ github.event.pusher.name }}
         git config user.email ${{ github.event.pusher.email }}
         git checkout --orphan gh-pages
