@@ -37,7 +37,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ${{ github.sha }}.pdf
-        asset_name: ${{ github.repository }}-${{ github.run_number }}.pdf
+        asset_name: ${{ github.repository }}.v${{ github.run_number }}.pdf
         asset_content_type: application/pdf
     - name: Build pptx
       run: |
@@ -55,7 +55,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ${{ github.sha }}.pdf
-        asset_name: ${{ github.repository }}-${{ github.run_number }}.pptx
+        asset_name: ${{ github.repository }}.v${{ github.run_number }}.pptx
         asset_content_type: application/vnd.openxmlformats-officedocument.presentationml.presentation
   github_page:
     runs-on: ubuntu-latest
