@@ -53,9 +53,8 @@ jobs:
         node-version: 13.x
     - name: Build
       run: |
+        rm readme.md
         npx @marp-team/marp-cli
-        echo "*.md\n.marprc.json\nreadme.md" >> .gitignore
-        git status -sb
     - name: Deploy
       run: |
         git config user.name ${{ github.event.pusher.name }}
@@ -65,7 +64,7 @@ jobs:
         git add --all
         git status -sb
 
-        git commit -m "Publish to gh-pages branch\n\n${{ github.sha }}"
+        git commit -m "publish ${{ github.sha }} to gh-pages"
         git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages --force
 
         curl -sL -X POST -H "Content-Type: application/json" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Authorization: token ${{ github.token}}" https://api.github.com/repos/${{ github.repository }}/pages/builds
