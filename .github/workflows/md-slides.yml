@@ -1,48 +1,7 @@
 name: markdown slides
 on: [push]
 jobs:
-  # github_release:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@master
-  #     with:
-  #       ref: refs/heads/master
-  #   - uses: actions/setup-node@master
-  #     with:
-  #       node-version: 12.x
-  #   - name: Make pptx
-  #     run: echo "todo"
-  #   - name: Make pdf
-  #     run: |
-  #       npx @marp-team/marp-cli slides.md --pdf --output ${GITHUB_REPOSITORY#*/}.pdf
-  #   - name: Save Artifact
-  #     uses: actions/upload-artifact@v1
-  #     with:
-  #       name: $GITHUB_REPOSITORY
-  #       path: ${GITHUB_REPOSITORY#*/}.pdf
-  #   - name: Create Release
-  #     id: create_release
-  #     uses: actions/create-release@v1
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #     with:
-  #       tag_name: v${{ github.run_number }}
-  #       release_name: Release ${{ github.run_number }}
-  #       body: |
-  #         lorem ipsum
-  #       draft: false
-  #       prerelease: false
-  #  - name: Upload Release Asset
-  #     id: upload-release-asset
-  #     uses: actions/upload-release-asset@v1
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #     with:
-  #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-  #       asset_path: ./presentation.pdf
-  #       asset_name: presentation.pdf
-  #       asset_content_type: application/pdf
-  github_page:
+  github release:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -51,23 +10,18 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: 13.x
-    - name: Build IMGAE
+    - name: Variables
       run: |
+        echo "::set-env name=GITHUB_REPOSITORY_USER::$(dirname $GITHUB_REPOSITORY)"
+        echo "::set-env name=GITHUB_REPOSITORY_NAME::$(basename $GITHUB_REPOSITORY)"
+        echo "::set-env name=GITHUB_PAGES_CANONICAL::https://${GITHUB_REPOSITORY_USER}.github.io/${GITHUB_REPOSITORY_NAME}/"
+    - name: Build pptx
+      run: |
+        npx @marp-team/marp-cli slides.md --pptx --output ${GITHUB_REPOSITORY_NAME}-v${{ github.run_number }}.pptx
+    - name: Build pdf
+      run: |
+        npx @marp-team/marp-cli slides.md --pdf --output ${GITHUB_REPOSITORY_NAME}-v${{ github.run_number }}.pdf
+    - name: Build html
+      run: |
+        npx @marp-team/marp-cli pitchme.md --output index.html --og-image "${GITHUB_PAGES_CANONICAL}thumbnail.png" --url "${GITHUB_PAGES_CANONICAL}"
         npx @marp-team/marp-cli pitchme.md --output thumbnail.png --image png
-    - name: Build HTML
-      run: |
-        npx @marp-team/marp-cli pitchme.md --output index.html --og-image thumbnail.png --url "https://$(dirname $GITHUB_REPOSITORY).github.io/$(basename $GITHUB_REPOSITORY)/"
-    - name: Deploy
-      run: |
-        git config user.name ${{ github.event.pusher.name }}
-        git config user.email ${{ github.event.pusher.email }}
-
-        git checkout --orphan gh-pages
-        git reset .
-        git add index.html thumbnail.png
-
-        git commit -m "publish ${{ github.sha }} to github pages"
-        git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages --force
-
-        # Even though this might respond with an error it manages to trigger a github-pages deployment
-        curl -sL -X POST -H "Content-Type: application/json" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Authorization: token ${{ github.token}}" https://api.github.com/repos/${{ github.repository }}/pages/builds
