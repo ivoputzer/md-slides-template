@@ -65,3 +65,4 @@ jobs:
         git commit -m "Publish to gh-pages branch"
         git push gh-actions gh-pages -f
 
+        curl -H "Authorization: token ${{ github.token}}" -H "Accept: application/vnd.github.switcheroo-preview+json" https://api.github.com/repos/${{ github.repository }}/pages
