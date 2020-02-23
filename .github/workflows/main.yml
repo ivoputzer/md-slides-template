@@ -56,6 +56,10 @@ jobs:
         # this should use marprc.yml file
         # this should be all html pages
         npx @marp-team/marp-cli
+    - name: Env
+      run: |
+        echo ${{ toJson(github) }}
+        echo ${{ toJson(run) }}
     - name: Deploy
       run: |
         git config user.name ${{ github.event.pusher.name }}
@@ -65,7 +69,7 @@ jobs:
         git checkout --orphan gh-pages
 
         git add --all
-        git commit -m "Publish to gh-pages branch ${{ github.sha }}"
+        git commit -m "Publish to gh-pages branch\n\n${{ github.sha }}"
         git push gh-actions gh-pages
 
         curl -sL -X POST -H "Content-Type: application/json" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Authorization: token ${{ github.token}}" https://api.github.com/repos/${{ github.repository }}/pages/builds
