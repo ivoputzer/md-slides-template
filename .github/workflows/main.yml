@@ -51,9 +51,11 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: 13.x
+    - name: env
+      run: |
+        echo "${{ toJson(github) }}"
     - name: Build
       run: |
-        rm readme.md
         npx @marp-team/marp-cli
     - name: Deploy
       run: |
@@ -62,15 +64,8 @@ jobs:
 
         git checkout --orphan gh-pages
 
-        git status
-
-        rm readme.md
-        rm .marprc.json
-
+        git reset .
         git add --all
-        git add *.html
-
-        git status
 
         git commit -m "publish ${{ github.sha }} to github pages"
         git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages --force
