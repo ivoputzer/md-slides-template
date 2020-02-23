@@ -55,12 +55,9 @@ jobs:
       run: |
         echo "${{ toJson(github) }}"
     - name: Build
-      env:
-        GITHUB_REPOSITORY_USER: $(dirname ${{ github.repository }})
-        GITHUB_REPOSITORY_NAME: $(basename ${{ github.repository }})
       run: |
-        echo "GITHUB_REPOSITORY_USER: $GITHUB_REPOSITORY_USER"
-        echo "GITHUB_REPOSITORY_NAME: $GITHUB_REPOSITORY_NAME"
+        GITHUB_REPOSITORY_USER=$(dirname ${{ github.repository }})
+        GITHUB_REPOSITORY_NAME=$(basename ${{ github.repository }})
         npx @marp-team/marp-cli index.md --url "https://${GITHUB_REPOSITORY_USER}.github.io/{GITHUB_REPOSITORY_NAME}/" -o index.html
         # todo: move away from index.md
     - name: Deploy
