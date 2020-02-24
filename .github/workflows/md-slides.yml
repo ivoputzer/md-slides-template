@@ -83,8 +83,7 @@ jobs:
         git config user.email ${{ github.event.pusher.email }}
 
         git checkout --orphan gh-pages
-        git reset .
-        git add index.html ${{ github.sha }}.png
+        git add .
 
         git commit -m "publish ${{ github.sha }} to github pages"
         git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages --force
