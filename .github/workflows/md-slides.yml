@@ -68,7 +68,7 @@ jobs:
         node-version: 13.x
     - name: Build png
       run: |
-        npx @marp-team/marp-cli pitchme.md --output ${{ github.sha }}.png --image png
+        npx @marp-team/marp-cli pitchme.md --allow-local-files --output ${{ github.sha }}.png --image png
     - name: Save png
       uses: actions/upload-artifact@v1
       with:
