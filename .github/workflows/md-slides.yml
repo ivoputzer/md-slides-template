@@ -23,7 +23,7 @@ jobs:
         prerelease: false
     - name: Build pdf
       run: |
-        npx @marp-team/marp-cli pitchme.md --pdf --output ${{ github.sha }}.pdf
+        npx @marp-team/marp-cli pitchme.md --pdf --allow-local-files --output ${{ github.sha }}.pdf
     - name: Save pdf
       uses: actions/upload-artifact@v1
       with:
@@ -41,7 +41,7 @@ jobs:
         asset_content_type: application/pdf
     - name: Build pptx
       run: |
-        npx @marp-team/marp-cli pitchme.md --pptx --output ${{ github.sha }}.pptx
+        npx @marp-team/marp-cli pitchme.md --pptx --allow-local-files --output ${{ github.sha }}.pptx
     - name: Save pptx
       uses: actions/upload-artifact@v1
       with:
