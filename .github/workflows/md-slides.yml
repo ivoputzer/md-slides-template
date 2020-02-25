@@ -1,5 +1,8 @@
 name: markdown slides
-on: [push]
+on:
+  push:
+    branches:
+    - master
 jobs:
   github_release:
     runs-on: ubuntu-latest
