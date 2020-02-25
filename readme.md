@@ -9,13 +9,13 @@
 This template follows the `PITCHME.md` convention introduced by [GitPitch][gitpitch_url].
 
 ## Instructions
-1. Navigate to the main page of the template repository.
+1. Navigate to the main page of this template repository.
 2. Above the file list, click **Use this template**.
 ![Use this template](data/use-this-template.png)
-3. Select the owner account and name the new repository.
-4. Click **Create repository from template**.
+1. Select the owner account and name your repository.
+2. Click **Create repository from template**.
 
-This steps will boostrap your new presentation using this template.
+This steps will boostrap your presentation using this template.
 
 ## Pull changes
 Setup `upstream` to whatever name you want
@@ -43,7 +43,7 @@ Eventually consider submitting a [Pull Request](https://help.github.com/en/githu
 [gh_pages_badge]: https://img.shields.io/static/v1?style=for-the-badge&label=page&message=online&color=success&logo=github
 [gh_releases_badge]: https://img.shields.io/github/v/release/ivoputzer/md-slides-template?style=for-the-badge&logo=github
 [page_url]: https://ivoputzer.github.io/md-slides-template
-[releases_url]: https://ivoputzer.github.io/md-slides-template/releases
-[deployments_url]: https://ivoputzer.github.io/md-slides-template/deployments
+[releases_url]: https://github.com/ivoputzer/md-slides-template/releases
+[deployments_url]: https://github.com/ivoputzer/md-slides-template/deployments
 [marp_url]: https://marp.app
 [gitpitch_url]: https://gitpitch.com/docs/getting-started/pitchme
