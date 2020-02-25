@@ -1,12 +1,13 @@
-# md-slides template
+# md-slides-template
 
-[![GitHub Actions][gh_actions_badge]][gh_actions]
-[![GitHub Pages][gh_pages_badge]][gh_pages]
-[![GitHub Releases][gh_releases_badge]][gh_releases]
+![GitHub Actions Badge](https://img.shields.io/github/workflow/status/ivoputzer/md-slides-template/markdown%20slides/master?style=for-the-badge&logo=github)
+![Github Issues Badge](https://img.shields.io/github/issues/ivoputzer/md-slides-template?style=for-the-badge&logo=github)
+![GitHub Pages Badge](https://img.shields.io/static/v1?style=for-the-badge&label=page&message=online&color=success&logo=github)
+![GitHub Releases Badge](https://img.shields.io/github/v/release/ivoputzer/md-slides-template?style=for-the-badge&logo=github)
 
-This template can be used to automatically render `PITCHME.md` files into [marp](https://marp.app) presentations. Wh you push to the master branch the workflow will render your slides, create a github release and updated your github page with no additional configuration. 
+This template can be used to deliver [Marp](https://marp.app) presentations quickly. When you push to `master` the workflow will render your slides, create a github release, and update your github page automatically without any additional configuration.
 
-This template follows the `PITCHME.md` convention introduced by [GitPitch](https://gitpitch.com/docs/getting-started/pitchme/). The `PITCHME.md` of your repository will be used to render the presentation in all of its formats (`pdf`, `pptx`, and `html`). Have a look a the [demo slides](https://ivoputzer.github.io/md-slides-template).
+The workflow follows the `PITCHME.md` convention introduced by [GitPitch](https://gitpitch.com/docs/getting-started/pitchme/).
 
 ## Instructions
 1. Navigate to the main page of the template repository.
@@ -17,7 +18,7 @@ This template follows the `PITCHME.md` convention introduced by [GitPitch](https
 
 This steps will boostrap your new presentation using this template.
 
-## Fetch upstream changes
+## Pull upstream changes
 Setup `upstream` to whatever name you want
 ```sh
 git remote add upstream git@github.com:ivoputzer/md-slides-template.git
@@ -31,16 +32,7 @@ git commit -m "integrates md-slides workflow changes from upstream"
 ```
 
 ## Create your own template
-1. Fork this repository
-2. Use your own template while following the [instructions](#Instructions)
-3. Make an edits
+1. Fork this repository.
+2. Apply any edit you with having in the template.
+3. Use your own template when following [instructions](#Instructions).
 4. Consider to submit a [Pull Request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#about-pull-requests) 🎉
-
-[gh_actions]: https://github.com/ivoputzer/md-slides-template
-[gh_actions_badge]: https://img.shields.io/github/workflow/status/ivoputzer/md-slides-template/markdown%20slides/master?style=for-the-badge&logo=github
-
-[gh_pages]: https://github.com/ivoputzer/md-slides-template/deployments
-[gh_pages_badge]: https://img.shields.io/static/v1?style=for-the-badge&label=page&message=online&color=success&logo=github
-
-[gh_releases]: https://github.com/ivoputzer/md-slides-template/releases
-[gh_releases_badge]: https://img.shields.io/github/v/release/ivoputzer/md-slides-template?style=for-the-badge&logo=github
