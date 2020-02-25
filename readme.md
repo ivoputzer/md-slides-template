@@ -4,20 +4,16 @@
 [![GitHub Pages][gh_pages_badge]][gh_pages]
 [![GitHub Releases][gh_releases_badge]][gh_releases]
 
-This template can be used to render `PITCHME.md` files into [marp](https://marp.app) presentations automatically. For every push on the master branch the workflow will render you presentation, create a github release and updated your github page.
+This template can be used to automatically render `PITCHME.md` files into [marp](https://marp.app) presentations. Wh you push to the master branch the workflow will render your slides, create a github release and updated your github page with no additional configuration. 
 
-This template follows the `PITCHME.md` convention introduced by [GitPitch](https://gitpitch.com/docs/getting-started/pitchme/). The `PITCHME.md` of your repository will be used to render the presentation in all of its formats (`pdf`, `pptx`, and `html`).
+This template follows the `PITCHME.md` convention introduced by [GitPitch](https://gitpitch.com/docs/getting-started/pitchme/). The `PITCHME.md` of your repository will be used to render the presentation in all of its formats (`pdf`, `pptx`, and `html`). Have a look a the [demo slides](https://ivoputzer.github.io/md-slides-template).
 
 ## Instructions
-1. Navigate to the main page of the repository.
-
+1. Navigate to the main page of the template repository.
 2. Above the file list, click **Use this template**.
-
 ![](data/use-this-template.png)
-
-1. Select the owner account and name the repository.
-
-2. Click **Create repository from template**.
+3. Select the owner account and name the new repository.
+4. Click **Create repository from template**.
 
 This steps will boostrap your new presentation using this template.
 
@@ -29,6 +25,7 @@ git remote add upstream git@github.com:ivoputzer/md-slides-template.git
 
 Integrate changes from `upstream` into your own repository
 ```sh
+git fetch --all
 git checkout upstream/master .github/workflows/md-slides.yml
 git commit -m "integrates md-slides workflow changes from upstream"
 ```
