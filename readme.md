@@ -4,7 +4,7 @@
 ![Github Pages Badge][gh_pages_badge]
 ![Github Releases Badge][gh_releases_badge]
 
-**Is used to deliver [Marp][marp_url] presentations quickly.** When you push to `master` it will render your slides, create a [release][releases_url] and [deploy][deployments_url] your [page][page_url] automatically without any additional configuration.
+**Is used to deliver [Marp][marp_url] presentations quickly.** When you push to `master` this workflow will render your slides, create a [release][releases_url] and [deploy][deployments_url] your [page][page_url] automatically without any additional configuration.
 
 This template follows the `PITCHME.md` convention introduced by [GitPitch][gitpitch_url].
 
