@@ -5,9 +5,9 @@
 ![GitHub Pages Badge](https://img.shields.io/static/v1?style=for-the-badge&label=page&message=online&color=success&logo=github)
 ![GitHub Releases Badge](https://img.shields.io/github/v/release/ivoputzer/md-slides-template?style=for-the-badge&logo=github)
 
-This template can be used to deliver [Marp](https://marp.app) presentations quickly. When you push to `master` the workflow will render your slides, create a github release, and update your github page automatically without any additional configuration.
+**Is used to deliver [Marp](https://marp.app) presentations quickly.** Whenever you push to `master` it will render your slides, create a [release](releases), and update your [page](page) automatically without any additional configuration.
 
-The workflow follows the `PITCHME.md` convention introduced by [GitPitch](https://gitpitch.com/docs/getting-started/pitchme/).
+This template follows the `PITCHME.md` convention introduced by [GitPitch](https://gitpitch.com/docs/getting-started/pitchme/).
 
 ## Instructions
 1. Navigate to the main page of the template repository.
@@ -28,7 +28,7 @@ Integrate changes from `upstream` into your own repository
 ```sh
 git fetch --all
 git checkout upstream/master .github/workflows/md-slides.yml
-git commit -m "integrates md-slides workflow changes from upstream"
+git commit -m "Merges upstream changes ivoputzer/md-slides-template"
 ```
 
 ## Create your own template
