@@ -1,7 +1,7 @@
 # md-slides template
 
-[![GitHub Actions][gh_actions_badge]](/actions)
-[![GitHub Pages][gh_pages_badge]](/deployments)
+[![GitHub Actions][gh_actions_badge]][gh_actions]
+[![GitHub Pages][gh_pages_badge]][gh_pages]
 [![GitHub Releases][gh_releases_badge]][gh_releases]
 
 This template can be used to render `PITCHME.md` files into [marp](https://marp.app) presentations automatically. For every push on the master branch the workflow will render you presentation, create a github release and updated your github page.
@@ -39,10 +39,10 @@ git commit -m "integrates md-slides workflow changes from upstream"
 3. Make an edits
 4. Consider to submit a [Pull Request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#about-pull-requests) 🎉
 
-
+[gh_actions]: https://github.com/ivoputzer/md-slides-template
 [gh_actions_badge]: https://img.shields.io/github/workflow/status/ivoputzer/md-slides-template/markdown%20slides/master?style=for-the-badge&logo=github
 
-[gh_pages]: https://github.com/ivoputzer/md-slides-template
+[gh_pages]: https://github.com/ivoputzer/md-slides-template/deployments
 [gh_pages_badge]: https://img.shields.io/static/v1?style=for-the-badge&label=page&message=online&color=success&logo=github
 
 [gh_releases]: https://github.com/ivoputzer/md-slides-template/releases
