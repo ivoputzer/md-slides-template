@@ -1,0 +1,95 @@
+name: md-slides
+on:
+  push:
+    branches:
+    - master
+jobs:
+  github_release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: refs/heads/master
+    - uses: actions/setup-node@master
+      with:
+        node-version: 13.x
+    - name: Release
+      uses: actions/create-release@v1
+      id: create_release
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        tag_name: ${{ github.run_number }}
+        release_name: PITCHME.md
+        body: ${{ github.event.head_commit.message }}
+        draft: false
+        prerelease: false
+    - name: Build pdf
+      run: |
+        npx @marp-team/marp-cli pitchme.md --pdf --allow-local-files --output ${{ github.sha }}.pdf
+    - name: Save pdf
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ github.sha }}.pdf
+        path: ${{ github.sha }}.pdf
+    - name: Upload pdf
+      uses: actions/upload-release-asset@v1
+      id: upload_pdf
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ github.sha }}.pdf
+        asset_name: ${{ github.repository }}.v${{ github.run_number }}.pdf
+        asset_content_type: application/pdf
+    - name: Build pptx
+      run: |
+        npx @marp-team/marp-cli pitchme.md --pptx --allow-local-files --output ${{ github.sha }}.pptx
+    - name: Save pptx
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ github.sha }}.pptx
+        path: ${{ github.sha }}.pptx
+    - name: Upload pptx
+      uses: actions/upload-release-asset@v1
+      id: upload_pptx
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ github.sha }}.pdf
+        asset_name: ${{ github.repository }}.v${{ github.run_number }}.pptx
+        asset_content_type: application/vnd.openxmlformats-officedocument.presentationml.presentation
+  github_page:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: refs/heads/master
+    - uses: actions/setup-node@master
+      with:
+        node-version: 13.x
+    - name: Build png
+      run: |
+        npx @marp-team/marp-cli pitchme.md --allow-local-files --output ${{ github.sha }}.png --image png
+    - name: Save png
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ github.sha }}.png
+        path: ${{ github.sha }}.png
+    - name: Build html
+      run: |
+        npx @marp-team/marp-cli pitchme.md --output index.html --url "https://${GITHUB_REPOSITORY%/*}.github.io/${GITHUB_REPOSITORY#*/}/" --og-image "https://${GITHUB_REPOSITORY%/*}.github.io/${GITHUB_REPOSITORY#*/}/${{ github.sha}}.png"
+    - name: Deploy
+      run: |
+        git config user.name ${{ github.event.pusher.name }}
+        git config user.email ${{ github.event.pusher.email }}
+
+        git checkout --orphan gh-pages
+        git add .
+
+        git commit -m "publish ${{ github.sha }} to github pages"
+        git push https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git gh-pages --force
+
+        curl -sL -X POST -H "Content-Type: application/json" -H "Accept: application/vnd.github.switcheroo-preview+json" -H "Authorization: token ${{ github.token}}" https://api.github.com/repos/${{ github.repository }}/pages/builds
+        ## Even though this might respond with an error it manages to trigger a github-pages deployment 🤞
