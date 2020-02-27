@@ -1,4 +1,4 @@
-name: markdown slides
+name: md-slides
 on:
   push:
     branches:
